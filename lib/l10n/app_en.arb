@@ -1,0 +1,103 @@
+{
+  "@@locale": "en",
+  "appTitle": "Support Call Recorder",
+  "legalTitle": "Recording Consent",
+  "legalNotice": "You must comply with your local laws and notify all call participants before recording.",
+  "continueButton": "I Understand and Continue",
+  "permissionDenied": "Please grant all required permissions to continue.",
+  "permissionPermanentlyDenied": "Some permissions are permanently denied. Open app settings.",
+  "requestingPermissions": "Requesting permissions...",
+  "recordingsTitle": "Support Recordings",
+  "searchHint": "Search by number or note",
+  "loadErrorWithReason": "Failed to load: {reason}",
+  "@loadErrorWithReason": {
+    "placeholders": {
+      "reason": {}
+    }
+  },
+  "noRecordingsYet": "No recordings yet",
+  "recordingDetails": "Recording Details",
+  "recordingNotFound": "Recording not found",
+  "phoneLabel": "Phone",
+  "recorderLabel": "Recorder",
+  "play": "Play",
+  "stop": "Stop",
+  "supportNote": "Support note",
+  "saveNote": "Save note",
+  "saved": "Saved",
+  "share": "Share",
+  "shareFromWithPath": "Share file from: {path}",
+  "@shareFromWithPath": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "settings": "Settings",
+  "language": "Language",
+  "arabic": "العربية",
+  "english": "English",
+  "appSecurity": "App security",
+  "useBiometric": "Use fingerprint or face unlock",
+  "biometricNotAvailable": "Biometric authentication is not available on this device",
+  "biometricEnableFailed": "Biometric security was not enabled",
+  "unlockTitle": "App Locked",
+  "unlockMessage": "Verify with fingerprint or face",
+  "unlockButton": "Unlock app",
+  "secondsShort": "s",
+  "unknownErrorWithReason": "Unexpected error occurred: {reason}",
+  "@unknownErrorWithReason": {
+    "placeholders": {
+      "reason": {}
+    }
+  },
+  "statusNew": "New",
+  "statusInReview": "In review",
+  "statusResolved": "Resolved",
+  "premiumWorkspaceTitle": "Premium Workspace",
+  "premiumNavDashboard": "Dashboard",
+  "premiumNavProjects": "Projects",
+  "premiumNavTasks": "Tasks",
+  "premiumNavProfile": "Profile",
+  "premiumAddTask": "Add Task",
+  "premiumAddTaskTitle": "Add task",
+  "premiumTaskTitleLabel": "Task title",
+  "premiumTaskTitleHint": "Write a concise and clear title",
+  "premiumProjectLabel": "Project",
+  "premiumProjectHint": "Example: SaaS Revamp",
+  "premiumCreateTask": "Create task",
+  "premiumGeneralProject": "General",
+  "premiumDashboardSubtitle": "Track outcomes, team focus, and delivery speed in one premium overview.",
+  "premiumThisWeek": "This week",
+  "premiumCompletionRate": "86% completion rate",
+  "premiumTasksShippedSummary": "12 tasks shipped, 3 in review",
+  "premiumStatActiveProjects": "Active Projects",
+  "premiumStatOpenTasks": "Open Tasks",
+  "premiumStatTeamVelocity": "Team Velocity",
+  "premiumStatOverdue": "Overdue",
+  "premiumProjectSaasRevamp": "SaaS Revamp",
+  "premiumProjectMobileOnboarding": "Mobile Onboarding",
+  "premiumProjectDataInsights": "Data Insights",
+  "premiumProjectCompleteWithProgress": "{progress} complete",
+  "@premiumProjectCompleteWithProgress": {
+    "placeholders": {
+      "progress": {}
+    }
+  },
+  "premiumMembersCount": "{count} members",
+  "@premiumMembersCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "premiumNoTasksYet": "No tasks yet",
+  "premiumNoTasksSubtitle": "Create your first task to start a focused workflow.",
+  "premiumProfileName": "Ahmed Mansour",
+  "premiumProfileRole": "Product Lead",
+  "premiumNotifications": "Notifications",
+  "premiumAppearance": "Appearance",
+  "premiumPrivacySecurity": "Privacy & Security",
+  "premiumHelpCenter": "Help Center",
+  "premiumTaskFinalizeSprintReport": "Finalize sprint report",
+  "premiumTaskReviewLandingHeroCopy": "Review landing hero copy",
+  "premiumTaskSyncAnalyticsNaming": "Sync analytics naming"
+}

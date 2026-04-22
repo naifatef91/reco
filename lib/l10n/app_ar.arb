@@ -1,0 +1,103 @@
+{
+  "@@locale": "ar",
+  "appTitle": "مسجل مكالمات الدعم",
+  "legalTitle": "موافقة التسجيل",
+  "legalNotice": "يُرجى الالتزام بالقوانين المحلية وإبلاغ جميع المشاركين في المكالمة قبل بدء التسجيل.",
+  "continueButton": "أوافق وأتابع",
+  "permissionDenied": "يُرجى منح جميع الأذونات المطلوبة للمتابعة.",
+  "permissionPermanentlyDenied": "تم رفض بعض الأذونات بشكل دائم. يُرجى فتح إعدادات التطبيق وتفعيلها.",
+  "requestingPermissions": "جارٍ طلب الأذونات...",
+  "recordingsTitle": "تسجيلات الدعم",
+  "searchHint": "ابحث برقم الهاتف أو الملاحظة",
+  "loadErrorWithReason": "تعذر التحميل: {reason}",
+  "@loadErrorWithReason": {
+    "placeholders": {
+      "reason": {}
+    }
+  },
+  "noRecordingsYet": "لا توجد تسجيلات بعد",
+  "recordingDetails": "تفاصيل التسجيل",
+  "recordingNotFound": "التسجيل غير موجود",
+  "phoneLabel": "الهاتف",
+  "recorderLabel": "المسجل",
+  "play": "تشغيل",
+  "stop": "إيقاف",
+  "supportNote": "ملاحظة الدعم",
+  "saveNote": "حفظ الملاحظة",
+  "saved": "تم الحفظ",
+  "share": "مشاركة",
+  "shareFromWithPath": "يمكن مشاركة الملف من: {path}",
+  "@shareFromWithPath": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "settings": "الإعدادات",
+  "language": "اللغة",
+  "arabic": "العربية",
+  "english": "English",
+  "appSecurity": "أمان التطبيق",
+  "useBiometric": "استخدام بصمة الإصبع أو التحقق بالوجه",
+  "biometricNotAvailable": "المصادقة الحيوية غير متاحة على هذا الجهاز",
+  "biometricEnableFailed": "تعذّر تفعيل الحماية البيومترية",
+  "unlockTitle": "التطبيق مقفل",
+  "unlockMessage": "يُرجى التحقق ببصمة الإصبع أو الوجه للمتابعة",
+  "unlockButton": "فتح التطبيق",
+  "secondsShort": "ث",
+  "unknownErrorWithReason": "حدث خطأ غير متوقع: {reason}",
+  "@unknownErrorWithReason": {
+    "placeholders": {
+      "reason": {}
+    }
+  },
+  "statusNew": "جديد",
+  "statusInReview": "قيد المراجعة",
+  "statusResolved": "تم الحل",
+  "premiumWorkspaceTitle": "مساحة العمل المتقدمة",
+  "premiumNavDashboard": "لوحة التحكم",
+  "premiumNavProjects": "المشاريع",
+  "premiumNavTasks": "المهام",
+  "premiumNavProfile": "الملف الشخصي",
+  "premiumAddTask": "إضافة مهمة",
+  "premiumAddTaskTitle": "إضافة مهمة",
+  "premiumTaskTitleLabel": "عنوان المهمة",
+  "premiumTaskTitleHint": "اكتب عنوانًا واضحًا ومختصرًا",
+  "premiumProjectLabel": "المشروع",
+  "premiumProjectHint": "مثال: تطوير منصة SaaS",
+  "premiumCreateTask": "إنشاء المهمة",
+  "premiumGeneralProject": "عام",
+  "premiumDashboardSubtitle": "تابع النتائج وتركيز الفريق وسرعة الإنجاز ضمن نظرة احترافية موحدة.",
+  "premiumThisWeek": "هذا الأسبوع",
+  "premiumCompletionRate": "معدل الإنجاز 86٪",
+  "premiumTasksShippedSummary": "تم تسليم 12 مهمة، و3 مهام قيد المراجعة",
+  "premiumStatActiveProjects": "المشاريع النشطة",
+  "premiumStatOpenTasks": "المهام المفتوحة",
+  "premiumStatTeamVelocity": "سرعة الفريق",
+  "premiumStatOverdue": "المهام المتأخرة",
+  "premiumProjectSaasRevamp": "تطوير منصة SaaS",
+  "premiumProjectMobileOnboarding": "تهيئة المستخدم للتطبيق",
+  "premiumProjectDataInsights": "تحليلات البيانات",
+  "premiumProjectCompleteWithProgress": "مكتمل بنسبة {progress}",
+  "@premiumProjectCompleteWithProgress": {
+    "placeholders": {
+      "progress": {}
+    }
+  },
+  "premiumMembersCount": "{count} أعضاء",
+  "@premiumMembersCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "premiumNoTasksYet": "لا توجد مهام بعد",
+  "premiumNoTasksSubtitle": "أنشئ مهمتك الأولى لبدء سير عمل أكثر تركيزًا.",
+  "premiumProfileName": "أحمد منصور",
+  "premiumProfileRole": "قائد المنتج",
+  "premiumNotifications": "الإشعارات",
+  "premiumAppearance": "المظهر",
+  "premiumPrivacySecurity": "الخصوصية والأمان",
+  "premiumHelpCenter": "مركز المساعدة",
+  "premiumTaskFinalizeSprintReport": "إنهاء تقرير السبرنت",
+  "premiumTaskReviewLandingHeroCopy": "مراجعة نص الواجهة الرئيسية",
+  "premiumTaskSyncAnalyticsNaming": "توحيد تسمية أحداث التحليلات"
+}
