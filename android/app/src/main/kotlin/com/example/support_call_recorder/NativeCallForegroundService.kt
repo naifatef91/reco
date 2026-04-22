@@ -1,12 +1,16 @@
 package com.reco.support
 
+import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
+import androidx.core.content.ContextCompat
 
 class NativeCallForegroundService : Service() {
     companion object {
@@ -14,12 +18,61 @@ class NativeCallForegroundService : Service() {
         const val ACTION_STOP = "com.reco.support.action.STOP_FOREGROUND"
         private const val CHANNEL_ID = "support_call_monitor_channel"
         private const val NOTIFICATION_ID = 1001
+
+        fun start(context: Context): Boolean {
+            if (!hasRequiredPermissions(context)) return false
+            val serviceIntent = Intent(context, NativeCallForegroundService::class.java).apply {
+                action = ACTION_START
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(serviceIntent)
+            } else {
+                context.startService(serviceIntent)
+            }
+            return true
+        }
+
+        fun stop(context: Context) {
+            context.stopService(Intent(context, NativeCallForegroundService::class.java))
+        }
+
+        private fun hasRequiredPermissions(context: Context): Boolean {
+            val hasAudioPermission = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.RECORD_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
+            if (!hasAudioPermission) return false
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                val hasMicForegroundPermission = ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.FOREGROUND_SERVICE_MICROPHONE
+                ) == PackageManager.PERMISSION_GRANTED
+                if (!hasMicForegroundPermission) return false
+            }
+
+            return true
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_STOP -> stopSelf()
-            else -> startForeground(NOTIFICATION_ID, buildNotification())
+            else -> {
+                if (!hasRequiredPermissions(this)) {
+                    stopSelf()
+                    return START_NOT_STICKY
+                }
+                try {
+                    startForeground(NOTIFICATION_ID, buildNotification())
+                } catch (_: SecurityException) {
+                    stopSelf()
+                    return START_NOT_STICKY
+                } catch (_: IllegalStateException) {
+                    stopSelf()
+                    return START_NOT_STICKY
+                }
+            }
         }
         return START_STICKY
     }

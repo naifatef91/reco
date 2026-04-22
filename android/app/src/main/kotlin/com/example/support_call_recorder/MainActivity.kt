@@ -16,16 +16,12 @@ class MainActivity : FlutterFragmentActivity() {
             .setMethodCallHandler { call, result ->
                 when (call.method) {
                     ACTION_START -> {
-                        startService(Intent(this, NativeCallForegroundService::class.java).apply {
-                            action = NativeCallForegroundService.ACTION_START
-                        })
-                        result.success(true)
+                        val started = NativeCallForegroundService.start(this)
+                        result.success(started)
                     }
 
                     ACTION_STOP -> {
-                        startService(Intent(this, NativeCallForegroundService::class.java).apply {
-                            action = NativeCallForegroundService.ACTION_STOP
-                        })
+                        NativeCallForegroundService.stop(this)
                         result.success(true)
                     }
 
