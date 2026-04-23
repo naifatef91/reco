@@ -1,17 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:support_call_recorder/presentation/premium_ui/premium_home_shell.dart';
 import 'package:support_call_recorder/presentation/recordings/legal_notice_page.dart';
 import 'package:support_call_recorder/presentation/recordings/recording_details_page.dart';
 import 'package:support_call_recorder/presentation/recordings/recordings_list_page.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/premium',
+    initialLocation: '/',
     routes: [
       GoRoute(
-        path: '/premium',
-        builder: (_, __) => const PremiumHomeShell(),
+        path: '/',
+        builder: (_, __) => const RecordingsListPage(),
       ),
       GoRoute(
         path: '/legal',

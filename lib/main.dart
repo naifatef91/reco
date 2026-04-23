@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:support_call_recorder/application/providers.dart';
 import 'package:support_call_recorder/l10n/app_localizations.dart';
 import 'package:support_call_recorder/presentation/app_router.dart';
-import 'package:support_call_recorder/presentation/premium_ui/theme/premium_theme.dart';
 import 'package:support_call_recorder/presentation/call_monitor_bootstrap.dart';
 import 'package:support_call_recorder/presentation/security/app_lock_gate.dart';
 
@@ -22,7 +21,7 @@ class SupportCallRecorderApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final settings = ref.watch(appSettingsProvider);
     final isArabic = settings.locale.languageCode == 'ar';
-    final baseTheme = PremiumTheme.light();
+    final baseTheme = ThemeData.light(useMaterial3: true);
     final themedTypography = isArabic
         ? GoogleFonts.cairoTextTheme(baseTheme.textTheme)
         : GoogleFonts.interTextTheme(baseTheme.textTheme);
