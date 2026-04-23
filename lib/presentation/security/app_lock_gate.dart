@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:support_call_recorder/application/app_settings.dart';
 import 'package:support_call_recorder/application/providers.dart';
 import 'package:support_call_recorder/presentation/localization/l10n_extensions.dart';
 
@@ -16,7 +17,7 @@ class _AppLockGateState extends ConsumerState<AppLockGate>
     with WidgetsBindingObserver {
   bool _isUnlocked = false;
   bool _isAuthenticating = false;
-  bool _wasBiometricEnabled = false;
+  bool _shouldRelockOnResume = false;
 
   @override
   void initState() {
@@ -33,9 +34,19 @@ class _AppLockGateState extends ConsumerState<AppLockGate>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      final settings = ref.read(appSettingsProvider);
-      if (settings.biometricEnabled) {
+    final settings = ref.read(appSettingsProvider);
+    if (!settings.biometricEnabled) {
+      return;
+    }
+
+    if (state == AppLifecycleState.paused) {
+      _shouldRelockOnResume = true;
+      return;
+    }
+
+    if (state == AppLifecycleState.resumed && _shouldRelockOnResume) {
+      _shouldRelockOnResume = false;
+      if (!_isAuthenticating) {
         setState(() => _isUnlocked = false);
         _ensureUnlocked();
       }
@@ -60,21 +71,22 @@ class _AppLockGateState extends ConsumerState<AppLockGate>
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final settings = ref.watch(appSettingsProvider);
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
-    if (settings.biometricEnabled && !_wasBiometricEnabled) {
-      _wasBiometricEnabled = true;
-      if (_isUnlocked) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted) return;
-          setState(() => _isUnlocked = false);
-          _ensureUnlocked();
-        });
-      } else {
-        WidgetsBinding.instance.addPostFrameCallback((_) => _ensureUnlocked());
+    ref.listen<AppSettings>(appSettingsProvider, (previous, next) {
+      if (previous?.biometricEnabled == next.biometricEnabled || !mounted) {
+        return;
       }
-    } else if (!settings.biometricEnabled) {
-      _wasBiometricEnabled = false;
-    }
+
+      if (!next.biometricEnabled) {
+        _shouldRelockOnResume = false;
+        setState(() => _isUnlocked = true);
+        return;
+      }
+
+      setState(() => _isUnlocked = false);
+      _ensureUnlocked();
+    });
+
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
     if (!settings.biometricEnabled || _isUnlocked) {
       return widget.child;

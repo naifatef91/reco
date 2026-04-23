@@ -60,13 +60,21 @@ final appSettingsProvider =
 );
 
 final callMonitorServiceProvider = Provider<CallMonitorService>((ref) {
-  return CallMonitorService(
+  final service = CallMonitorService(
     useCases: ref.watch(useCasesProvider),
     engine: ref.watch(audioEngineProvider),
     fileCrypto: ref.watch(fileCryptoProvider),
     permissionService: ref.watch(permissionServiceProvider),
     nativeBridge: ref.watch(nativeCallBridgeProvider),
+    readExcludedNumbers: () => ref.read(appSettingsProvider).excludedNumbers,
   );
+  ref.onDispose(service.dispose);
+  return service;
+});
+
+final activeRecordingStateProvider = StreamProvider<ActiveRecordingState>((ref) {
+  final service = ref.watch(callMonitorServiceProvider);
+  return service.recordingStateStream;
 });
 
 class PermissionService {
@@ -119,5 +127,31 @@ class AppSettingsController extends StateNotifier<AppSettings> {
   Future<void> setBiometricEnabled(bool enabled) async {
     await _store.saveBiometricEnabled(enabled);
     state = state.copyWith(biometricEnabled: enabled);
+  }
+
+  Future<void> addExcludedNumber(String number) async {
+    final trimmed = number.trim();
+    if (trimmed.isEmpty) return;
+    final current = List<String>.from(state.excludedNumbers);
+    final normalized = _normalizeNumber(trimmed);
+    final exists = current.any((value) => _normalizeNumber(value) == normalized);
+    if (exists) return;
+    current.add(trimmed);
+    await _store.saveExcludedNumbers(current);
+    state = state.copyWith(excludedNumbers: current);
+  }
+
+  Future<void> removeExcludedNumber(String number) async {
+    final normalized = _normalizeNumber(number);
+    final next = state.excludedNumbers
+        .where((value) => _normalizeNumber(value) != normalized)
+        .toList(growable: false);
+    await _store.saveExcludedNumbers(next);
+    state = state.copyWith(excludedNumbers: next);
+  }
+
+  String _normalizeNumber(String value) {
+    final digitsOnly = value.replaceAll(RegExp(r'[^0-9]'), '');
+    return digitsOnly.isEmpty ? value.trim() : digitsOnly;
   }
 }

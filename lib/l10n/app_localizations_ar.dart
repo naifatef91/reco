@@ -70,6 +70,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get saveNote => 'حفظ الملاحظة';
 
   @override
+  String get save => 'حفظ';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
   String get saved => 'تم الحفظ';
 
   @override
@@ -97,6 +103,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get useBiometric => 'استخدام بصمة الإصبع أو التحقق بالوجه';
+
+  @override
+  String get excludedNumbers => 'الأرقام المستثناة';
+
+  @override
+  String get excludedNumbersHint =>
+      'لن يتم تسجيل المكالمات الواردة أو الصادرة لهذه الأرقام.';
+
+  @override
+  String get noExcludedNumbers => 'لا توجد أرقام مستثناة بعد';
+
+  @override
+  String get addExcludedNumber => 'إضافة رقم مستثنى';
+
+  @override
+  String get phoneNumber => 'رقم الهاتف';
+
+  @override
+  String get excludedNumberExample => 'مثال: +201234567890';
 
   @override
   String get biometricNotAvailable =>

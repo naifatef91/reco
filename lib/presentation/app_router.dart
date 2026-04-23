@@ -6,7 +6,7 @@ import 'package:support_call_recorder/presentation/recordings/recordings_list_pa
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/legal',
     routes: [
       GoRoute(
         path: '/',

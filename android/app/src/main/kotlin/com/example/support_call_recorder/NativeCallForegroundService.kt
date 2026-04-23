@@ -1,6 +1,7 @@
 package com.reco.support
 
 import android.Manifest
+import android.app.PendingIntent
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -18,6 +19,7 @@ class NativeCallForegroundService : Service() {
         const val ACTION_STOP = "com.reco.support.action.STOP_FOREGROUND"
         private const val CHANNEL_ID = "support_call_monitor_channel"
         private const val NOTIFICATION_ID = 1001
+        private const val EXTRA_STOP_RECORDING_REQUESTED = "stop_recording_requested"
 
         fun start(context: Context): Boolean {
             if (!hasRequiredPermissions(context)) return false
@@ -102,10 +104,29 @@ class NativeCallForegroundService : Service() {
             Notification.Builder(this)
         }
 
+        val openAppIntent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra(EXTRA_STOP_RECORDING_REQUESTED, true)
+        }
+        val openAppPendingIntent = PendingIntent.getActivity(
+            this,
+            1101,
+            openAppIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         return builder
             .setContentTitle("Support Call Recorder")
-            .setContentText("Call monitoring is active")
+            .setContentText("Call monitoring is active. Tap stop action to end recording.")
             .setSmallIcon(android.R.drawable.ic_btn_speak_now)
+            .setContentIntent(openAppPendingIntent)
+            .addAction(
+                Notification.Action.Builder(
+                    0,
+                    "Stop Recording",
+                    openAppPendingIntent
+                ).build()
+            )
             .setOngoing(true)
             .build()
     }

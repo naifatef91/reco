@@ -17,7 +17,7 @@ class BiometricAuthService {
         localizedReason: 'Authenticate to access your recordings',
         options: const AuthenticationOptions(
           biometricOnly: true,
-          stickyAuth: true,
+          stickyAuth: false,
         ),
       );
     } catch (_) {

@@ -212,6 +212,18 @@ abstract class AppLocalizations {
   /// **'Save note'**
   String get saveNote;
 
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
   /// No description provided for @saved.
   ///
   /// In en, this message translates to:
@@ -265,6 +277,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use fingerprint or face unlock'**
   String get useBiometric;
+
+  /// No description provided for @excludedNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Excluded numbers'**
+  String get excludedNumbers;
+
+  /// No description provided for @excludedNumbersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Calls from these numbers will not be recorded.'**
+  String get excludedNumbersHint;
+
+  /// No description provided for @noExcludedNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'No excluded numbers yet'**
+  String get noExcludedNumbers;
+
+  /// No description provided for @addExcludedNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Add excluded number'**
+  String get addExcludedNumber;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phoneNumber;
+
+  /// No description provided for @excludedNumberExample.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: +201234567890'**
+  String get excludedNumberExample;
 
   /// No description provided for @biometricNotAvailable.
   ///

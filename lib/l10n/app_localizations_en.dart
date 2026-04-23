@@ -71,6 +71,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveNote => 'Save note';
 
   @override
+  String get save => 'Save';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
   String get saved => 'Saved';
 
   @override
@@ -98,6 +104,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get useBiometric => 'Use fingerprint or face unlock';
+
+  @override
+  String get excludedNumbers => 'Excluded numbers';
+
+  @override
+  String get excludedNumbersHint =>
+      'Calls from these numbers will not be recorded.';
+
+  @override
+  String get noExcludedNumbers => 'No excluded numbers yet';
+
+  @override
+  String get addExcludedNumber => 'Add excluded number';
+
+  @override
+  String get phoneNumber => 'Phone number';
+
+  @override
+  String get excludedNumberExample => 'Example: +201234567890';
 
   @override
   String get biometricNotAvailable =>

@@ -7,6 +7,8 @@ import 'package:support_call_recorder/presentation/app_router.dart';
 import 'package:support_call_recorder/presentation/call_monitor_bootstrap.dart';
 import 'package:support_call_recorder/presentation/security/app_lock_gate.dart';
 
+const _brandGreen = Color(0xFF13966A);
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: SupportCallRecorderApp()));
@@ -46,6 +48,14 @@ class SupportCallRecorderApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
       theme: baseTheme.copyWith(
+        colorScheme: baseTheme.colorScheme.copyWith(
+          primary: _brandGreen,
+          surfaceTint: _brandGreen,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: _brandGreen,
+          foregroundColor: Colors.white,
+        ),
         textTheme: adjustedTypography,
         primaryTextTheme: adjustedTypography,
       ),
