@@ -72,11 +72,52 @@ class _RecordingDetailsPageState extends ConsumerState<RecordingDetailsPage> {
                     FilledButton(
                       style: filledButtonStyle,
                       onPressed: () async {
-                        final decrypted = await ref
-                            .read(fileCryptoProvider)
-                            .decryptToTemp(File(item.filePath));
-                        await _player.setFilePath(decrypted.path);
-                        await _player.play();
+                        try {
+                          final encryptedFile = File(item.filePath);
+                          if (!await encryptedFile.exists()) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  isArabic
+                                      ? 'ملف التسجيل غير موجود'
+                                      : 'Recording file not found',
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+                          final decrypted = await ref
+                              .read(fileCryptoProvider)
+                              .decryptToTemp(encryptedFile);
+                          final bytes = await decrypted.length();
+                          if (bytes <= 0) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  isArabic
+                                      ? 'الملف فارغ ولا يمكن تشغيله'
+                                      : 'Recording file is empty',
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+                          await _player.setFilePath(decrypted.path);
+                          await _player.play();
+                        } catch (_) {
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                isArabic
+                                    ? 'تعذر تشغيل التسجيل'
+                                    : 'Unable to play recording',
+                              ),
+                            ),
+                          );
+                        }
                       },
                       child: Text(strings.play),
                     ),

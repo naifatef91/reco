@@ -13,6 +13,19 @@ class NativeCallBridge {
     await _channel.invokeMethod<bool>('stopForegroundCallService');
   }
 
+  Future<void> updateForegroundRecordingState({
+    required bool isRecording,
+    required String phoneNumber,
+  }) async {
+    await _channel.invokeMethod<bool>(
+      'updateForegroundRecordingState',
+      <String, dynamic>{
+        'isRecording': isRecording,
+        'phoneNumber': phoneNumber,
+      },
+    );
+  }
+
   Future<bool> consumePendingStopRecordingRequest() async {
     final result =
         await _channel.invokeMethod<bool>('consumePendingStopRecordingRequest');

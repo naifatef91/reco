@@ -102,6 +102,10 @@ class CallMonitorService {
       _activeStart = DateTime.now();
       _activeNumber = number;
       _activeFile = file;
+      await _nativeBridge.updateForegroundRecordingState(
+        isRecording: true,
+        phoneNumber: _activeNumber,
+      );
       _emitRecordingState();
     } catch (_) {
       _activeStart = null;
@@ -139,6 +143,20 @@ class CallMonitorService {
     final file = _activeFile;
     if (started == null || file == null) return;
     await _engine.stop();
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    final fileLength = await file.length();
+    if (fileLength <= 0) {
+      _activeStart = null;
+      _activeNumber = 'unknown';
+      _activeFile = null;
+      _activeSource = 'unknown';
+      await _nativeBridge.updateForegroundRecordingState(
+        isRecording: false,
+        phoneNumber: '',
+      );
+      _emitRecordingState();
+      return;
+    }
     await _fileCrypto.encryptInPlace(file);
     final ended = DateTime.now();
     await _useCases.save(
@@ -157,6 +175,10 @@ class CallMonitorService {
     _activeNumber = 'unknown';
     _activeFile = null;
     _activeSource = 'unknown';
+    await _nativeBridge.updateForegroundRecordingState(
+      isRecording: false,
+      phoneNumber: '',
+    );
     _emitRecordingState();
   }
 

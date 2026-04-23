@@ -14,12 +14,18 @@ import android.os.IBinder
 import androidx.core.content.ContextCompat
 
 class NativeCallForegroundService : Service() {
+    private var isRecordingNow: Boolean = false
+    private var activePhoneNumber: String = ""
+
     companion object {
         const val ACTION_START = "com.reco.support.action.START_FOREGROUND"
         const val ACTION_STOP = "com.reco.support.action.STOP_FOREGROUND"
+        const val ACTION_UPDATE = "com.reco.support.action.UPDATE_STATE"
         private const val CHANNEL_ID = "support_call_monitor_channel"
         private const val NOTIFICATION_ID = 1001
         private const val EXTRA_STOP_RECORDING_REQUESTED = "stop_recording_requested"
+        private const val EXTRA_IS_RECORDING = "extra_is_recording"
+        private const val EXTRA_PHONE_NUMBER = "extra_phone_number"
 
         fun start(context: Context): Boolean {
             if (!hasRequiredPermissions(context)) return false
@@ -36,6 +42,19 @@ class NativeCallForegroundService : Service() {
 
         fun stop(context: Context) {
             context.stopService(Intent(context, NativeCallForegroundService::class.java))
+        }
+
+        fun updateRecordingState(context: Context, isRecording: Boolean, phoneNumber: String) {
+            val serviceIntent = Intent(context, NativeCallForegroundService::class.java).apply {
+                action = ACTION_UPDATE
+                putExtra(EXTRA_IS_RECORDING, isRecording)
+                putExtra(EXTRA_PHONE_NUMBER, phoneNumber)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(serviceIntent)
+            } else {
+                context.startService(serviceIntent)
+            }
         }
 
         private fun hasRequiredPermissions(context: Context): Boolean {
@@ -60,6 +79,12 @@ class NativeCallForegroundService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_STOP -> stopSelf()
+            ACTION_UPDATE -> {
+                isRecordingNow = intent.getBooleanExtra(EXTRA_IS_RECORDING, false)
+                activePhoneNumber = intent.getStringExtra(EXTRA_PHONE_NUMBER).orEmpty()
+                val manager = getSystemService(NotificationManager::class.java)
+                manager.notify(NOTIFICATION_ID, buildNotification())
+            }
             else -> {
                 if (!hasRequiredPermissions(this)) {
                     stopSelf()
@@ -93,7 +118,7 @@ class NativeCallForegroundService : Service() {
                 NotificationChannel(
                     CHANNEL_ID,
                     "Support Call Monitor",
-                    NotificationManager.IMPORTANCE_LOW
+                    NotificationManager.IMPORTANCE_DEFAULT
                 )
             )
         }
@@ -117,7 +142,7 @@ class NativeCallForegroundService : Service() {
 
         return builder
             .setContentTitle("Support Call Recorder")
-            .setContentText("Call monitoring is active. Tap stop action to end recording.")
+            .setContentText(buildContentText())
             .setSmallIcon(android.R.drawable.ic_btn_speak_now)
             .setContentIntent(openAppPendingIntent)
             .addAction(
@@ -127,7 +152,18 @@ class NativeCallForegroundService : Service() {
                     openAppPendingIntent
                 ).build()
             )
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .setOnlyAlertOnce(true)
             .setOngoing(true)
             .build()
+    }
+
+    private fun buildContentText(): String {
+        if (!isRecordingNow) return "Call monitoring is active"
+        return if (activePhoneNumber.isBlank() || activePhoneNumber == "unknown") {
+            "Recording call in progress"
+        } else {
+            "Recording call: $activePhoneNumber"
+        }
     }
 }

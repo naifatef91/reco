@@ -9,6 +9,7 @@ private const val CHANNEL = "com.reco.support/native_call_bridge"
 private const val ACTION_START = "startForegroundCallService"
 private const val ACTION_STOP = "stopForegroundCallService"
 private const val ACTION_CONSUME_STOP_REQUEST = "consumePendingStopRecordingRequest"
+private const val ACTION_UPDATE_RECORDING_STATE = "updateForegroundRecordingState"
 private const val EXTRA_STOP_RECORDING_REQUESTED = "stop_recording_requested"
 
 class MainActivity : FlutterFragmentActivity() {
@@ -46,6 +47,17 @@ class MainActivity : FlutterFragmentActivity() {
                         val shouldStop = pendingStopRecordingRequest
                         pendingStopRecordingRequest = false
                         result.success(shouldStop)
+                    }
+
+                    ACTION_UPDATE_RECORDING_STATE -> {
+                        val isRecording = call.argument<Boolean>("isRecording") ?: false
+                        val phoneNumber = call.argument<String>("phoneNumber") ?: ""
+                        NativeCallForegroundService.updateRecordingState(
+                            applicationContext,
+                            isRecording,
+                            phoneNumber
+                        )
+                        result.success(true)
                     }
 
                     else -> result.notImplemented()
