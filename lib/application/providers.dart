@@ -95,8 +95,12 @@ class PermissionService {
   }
 
   Future<bool> ensureRequired() async {
-    final result = await requestRequired();
-    return result.allGranted;
+    final statuses = await Future.wait([
+      Permission.microphone.status,
+      Permission.phone.status,
+      Permission.notification.status,
+    ]);
+    return statuses.every((status) => status.isGranted);
   }
 }
 
@@ -127,6 +131,11 @@ class AppSettingsController extends StateNotifier<AppSettings> {
   Future<void> setBiometricEnabled(bool enabled) async {
     await _store.saveBiometricEnabled(enabled);
     state = state.copyWith(biometricEnabled: enabled);
+  }
+
+  Future<void> setLegalConsentAccepted(bool accepted) async {
+    await _store.saveLegalConsentAccepted(accepted);
+    state = state.copyWith(legalConsentAccepted: accepted);
   }
 
   Future<void> addExcludedNumber(String number) async {

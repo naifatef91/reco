@@ -16,13 +16,6 @@ class _LegalNoticePageState extends ConsumerState<LegalNoticePage> {
   bool _isRequesting = false;
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _requestPermissions(showSuccessRoute: false));
-  }
-
-  @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final isArabic = Localizations.localeOf(context).languageCode == 'ar';
@@ -45,7 +38,7 @@ class _LegalNoticePageState extends ConsumerState<LegalNoticePage> {
               style: buttonStyle,
               onPressed: _isRequesting
                   ? null
-                  : () => _requestPermissions(showSuccessRoute: true),
+                  : _requestPermissionsAndContinue,
               child: Text(_isRequesting
                   ? strings.requestingPermissions
                   : strings.continueButton),
@@ -56,7 +49,7 @@ class _LegalNoticePageState extends ConsumerState<LegalNoticePage> {
     );
   }
 
-  Future<void> _requestPermissions({required bool showSuccessRoute}) async {
+  Future<void> _requestPermissionsAndContinue() async {
     if (_isRequesting) return;
     setState(() => _isRequesting = true);
     final strings = context.l10n;
@@ -66,9 +59,8 @@ class _LegalNoticePageState extends ConsumerState<LegalNoticePage> {
 
     if (permissionResult.allGranted) {
       await ref.read(callMonitorServiceProvider).start();
-      if (showSuccessRoute && mounted) {
-        context.go('/recordings');
-      }
+      await ref.read(appSettingsProvider.notifier).setLegalConsentAccepted(true);
+      if (mounted) context.go('/recordings');
       setState(() => _isRequesting = false);
       return;
     }
